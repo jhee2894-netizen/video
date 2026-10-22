@@ -11,22 +11,8 @@ import {
 
 const DialogueAudio: React.FC<{
   src: string;
-  durationInFrames: number;
-  fadeInFrames?: number;
-  fadeOutFrames?: number;
-}> = ({ src, durationInFrames, fadeInFrames = 2, fadeOutFrames = 3 }) => {
-  const frame = useCurrentFrame();
-  const volume = interpolate(
-    frame,
-    [0, fadeInFrames, Math.max(fadeInFrames, durationInFrames - fadeOutFrames), durationInFrames],
-    [0.85, 1, 1, 0.85],
-    {
-      extrapolateLeft: "clamp",
-      extrapolateRight: "clamp",
-    }
-  );
-
-  return <Audio src={src} volume={volume} />;
+}> = ({ src }) => {
+  return <Audio src={src} volume={1} />;
 };
 
 export const RealReel: React.FC = () => {
@@ -58,12 +44,12 @@ export const RealReel: React.FC = () => {
       </style>
 
       {/* ========================================================
-          배경 음악 & 누아르 빗소리 (중단 없이 전체 영상에 부드럽게 이어짐)
+          배경 음악 & 누아르 빗소리 (영화 오리지널 첼로 스코어 무봉제 루프)
       ======================================================== */}
       <Audio
         src={staticFile("noir_bgm.mp3")}
         volume={(f) =>
-          interpolate(f, [0, 20, 540, 570], [0, 0.55, 0.55, 0], {
+          interpolate(f, [0, 20, 540, 570], [0, 0.50, 0.50, 0], {
             extrapolateLeft: "clamp",
             extrapolateRight: "clamp",
           })
@@ -145,16 +131,11 @@ export const RealReel: React.FC = () => {
       ======================================================== */}
 
       {/* --------------------------------------------------------
-          [1] 3.0초: "니들은 내일만 보고 살지?" (90프레임 시작, 70프레임 지속, 160f 종료)
-          - 타인의 "뭐?" 음성 완벽 제거
+          [1] 3.0초: "니들은 내일만 보고 살지?" (90프레임 시작, 55프레임 지속, 145f 종료)
+          - 초반 잡음("그게..") 완전 제거, 즉시 명확하게 대사 진입
       -------------------------------------------------------- */}
-      <Sequence from={90} durationInFrames={70}>
-        <DialogueAudio
-          src={staticFile("wb_line1.mp3")}
-          durationInFrames={70}
-          fadeInFrames={2}
-          fadeOutFrames={3}
-        />
+      <Sequence from={90} durationInFrames={55}>
+        <DialogueAudio src={staticFile("wb_line1.mp3")} />
         <div
           style={{
             position: "absolute",
@@ -186,16 +167,11 @@ export const RealReel: React.FC = () => {
       </Sequence>
 
       {/* --------------------------------------------------------
-          [2] 5.50초: "내일만 사는 놈은 오늘만 사는 놈한테 죽는다" (165프레임 시작, 206프레임 지속, 371f(12.37초) 종료)
-          - '죽는다'의 '다'까지 100% 잘림 없이 완벽히 끝까지 송출
+          [2] 4.93초: "내일만 사는 놈은 오늘만 사는 놈한테 죽는다" (148프레임 시작, 200프레임 지속, 348f(11.60초) 종료)
+          - '죽는다'의 '다'까지 100% 잘림 없이 완벽히 송출
       -------------------------------------------------------- */}
-      <Sequence from={165} durationInFrames={206}>
-        <DialogueAudio
-          src={staticFile("wb_line2.mp3")}
-          durationInFrames={206}
-          fadeInFrames={2}
-          fadeOutFrames={4}
-        />
+      <Sequence from={148} durationInFrames={200}>
+        <DialogueAudio src={staticFile("wb_line2.mp3")} />
         <div
           style={{
             position: "absolute",
@@ -243,17 +219,16 @@ export const RealReel: React.FC = () => {
       </Sequence>
 
       {/* --------------------------------------------------------
-          [3] 12.47초: "난 오늘만 산다" (374프레임 시작, 41프레임 지속 -> 415프레임(13.83초) 종료)
-          - 사용자 요청: 14초 이전에 음성과 자막 모두 완벽히 종료
-          - 노이즈 제거된 순수 원빈 육성 100% 매칭
+          [간격] 348f ~ 378f (11.60초 ~ 12.60초): 정확히 1.0초(30프레임)간의 묵직한 정적 및 BGM 흐름
       -------------------------------------------------------- */}
-      <Sequence from={374} durationInFrames={41}>
-        <DialogueAudio
-          src={staticFile("wb_line3.mp3")}
-          durationInFrames={41}
-          fadeInFrames={2}
-          fadeOutFrames={3}
-        />
+
+      {/* --------------------------------------------------------
+          [3] 12.60초: "난 오늘만 산다" (378프레임 시작, 37프레임 지속 -> 415프레임(13.83초) 종료)
+          - 사용자 요청: 14초 이전에 음성과 자막 모두 완벽히 종료 (< 14.0s)
+          - "죽는다" 이후 정확히 1.0초 간격을 두고 긴장감 있게 등장
+      -------------------------------------------------------- */}
+      <Sequence from={378} durationInFrames={37}>
+        <DialogueAudio src={staticFile("wb_line3.mp3")} />
         <div
           style={{
             position: "absolute",
@@ -290,12 +265,7 @@ export const RealReel: React.FC = () => {
           - 고양이가 걸어 나오는 씬에서 원빈 육성 매칭
       -------------------------------------------------------- */}
       <Sequence from={480} durationInFrames={75}>
-        <DialogueAudio
-          src={staticFile("wb_line4.mp3")}
-          durationInFrames={75}
-          fadeInFrames={2}
-          fadeOutFrames={5}
-        />
+        <DialogueAudio src={staticFile("wb_line4.mp3")} />
         <div
           style={{
             position: "absolute",
@@ -328,3 +298,4 @@ export const RealReel: React.FC = () => {
     </AbsoluteFill>
   );
 };
+
