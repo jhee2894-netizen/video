@@ -44,17 +44,10 @@ export const RealReel: React.FC = () => {
       </style>
 
       {/* ========================================================
-          배경 음악 & 누아르 빗소리 (영화 오리지널 첼로 스코어 무봉제 루프)
+          통합 마스터 오디오 (연속 첼로 누아르 BGM & 100% 원빈 단독 육성 정밀 마스터링)
+          - 배경음이 끊김 없이 0~19초 동안 완벽하고 자연스럽게 이어짐
       ======================================================== */}
-      <Audio
-        src={staticFile("noir_bgm.mp3")}
-        volume={(f) =>
-          interpolate(f, [0, 20, 540, 570], [0, 0.50, 0.50, 0], {
-            extrapolateLeft: "clamp",
-            extrapolateRight: "clamp",
-          })
-        }
-      />
+      <Audio src={staticFile("real_master.mp3")} />
 
       {/* ========================================================
           1. 시네마틱 숏츠 영상 영역
@@ -135,7 +128,6 @@ export const RealReel: React.FC = () => {
           - 초반 잡음("그게..") 완전 제거, 100% 순수 원빈 육성 진입
       -------------------------------------------------------- */}
       <Sequence from={90} durationInFrames={55}>
-        <DialogueAudio src={staticFile("wb_line1.mp3")} />
         <div
           style={{
             position: "absolute",
@@ -172,7 +164,6 @@ export const RealReel: React.FC = () => {
           - '죽는다'의 '다'까지 100% 완전 송출
       -------------------------------------------------------- */}
       <Sequence from={155} durationInFrames={128}>
-        <DialogueAudio src={staticFile("wb_line2.mp3")} />
         <div
           style={{
             position: "absolute",
@@ -231,7 +222,6 @@ export const RealReel: React.FC = () => {
           - 다른 인물 음성 0% (오직 원빈 육성만 송출)
       -------------------------------------------------------- */}
       <Sequence from={313} durationInFrames={52}>
-        <DialogueAudio src={staticFile("wb_line3.mp3")} />
         <div
           style={{
             position: "absolute",
@@ -268,7 +258,6 @@ export const RealReel: React.FC = () => {
           - 고양이가 걸어 나오는 씬에서 원빈 육성 매칭
       -------------------------------------------------------- */}
       <Sequence from={480} durationInFrames={75}>
-        <DialogueAudio src={staticFile("wb_line4.mp3")} />
         <div
           style={{
             position: "absolute",
