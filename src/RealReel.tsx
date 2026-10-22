@@ -14,12 +14,12 @@ const DialogueAudio: React.FC<{
   durationInFrames: number;
   fadeInFrames?: number;
   fadeOutFrames?: number;
-}> = ({ src, durationInFrames, fadeInFrames = 6, fadeOutFrames = 10 }) => {
+}> = ({ src, durationInFrames, fadeInFrames = 2, fadeOutFrames = 3 }) => {
   const frame = useCurrentFrame();
   const volume = interpolate(
     frame,
     [0, fadeInFrames, Math.max(fadeInFrames, durationInFrames - fadeOutFrames), durationInFrames],
-    [0, 1, 1, 0],
+    [0.85, 1, 1, 0.85],
     {
       extrapolateLeft: "clamp",
       extrapolateRight: "clamp",
@@ -58,12 +58,12 @@ export const RealReel: React.FC = () => {
       </style>
 
       {/* ========================================================
-          배경 누아르 빗소리 & 룸톤 앰비언스 (뚝뚝 끊김 없이 영상 전체에 부드럽게 유지)
+          배경 음악 & 누아르 빗소리 (중단 없이 전체 영상에 부드럽게 이어짐)
       ======================================================== */}
       <Audio
-        src={staticFile("noir_ambience.mp3")}
+        src={staticFile("noir_bgm.mp3")}
         volume={(f) =>
-          interpolate(f, [0, 25, 540, 570], [0, 0.35, 0.35, 0], {
+          interpolate(f, [0, 20, 540, 570], [0, 0.55, 0.55, 0], {
             extrapolateLeft: "clamp",
             extrapolateRight: "clamp",
           })
@@ -145,15 +145,15 @@ export const RealReel: React.FC = () => {
       ======================================================== */}
 
       {/* --------------------------------------------------------
-          [1] 3.0초: "니들은 내일만 보고 살지?" (90프레임 시작, 2.5초 지속, 165f 종료)
-          - 타인의 "뭐?" 음성 완벽 제거 및 부드러운 페이드 인/아웃
+          [1] 3.0초: "니들은 내일만 보고 살지?" (90프레임 시작, 70프레임 지속, 160f 종료)
+          - 타인의 "뭐?" 음성 완벽 제거
       -------------------------------------------------------- */}
-      <Sequence from={90} durationInFrames={75}>
+      <Sequence from={90} durationInFrames={70}>
         <DialogueAudio
           src={staticFile("wb_line1.mp3")}
-          durationInFrames={75}
-          fadeInFrames={5}
-          fadeOutFrames={8}
+          durationInFrames={70}
+          fadeInFrames={2}
+          fadeOutFrames={3}
         />
         <div
           style={{
@@ -186,15 +186,15 @@ export const RealReel: React.FC = () => {
       </Sequence>
 
       {/* --------------------------------------------------------
-          [2] 5.73초: "내일만 사는 놈은 오늘만 사는 놈한테 죽는다" (172프레임 시작, 190프레임 지속, 362f 종료)
-          - '죽는다'까지 온전히 송출 후 자연스럽게 마무리
+          [2] 5.50초: "내일만 사는 놈은 오늘만 사는 놈한테 죽는다" (165프레임 시작, 206프레임 지속, 371f(12.37초) 종료)
+          - '죽는다'의 '다'까지 100% 잘림 없이 완벽히 끝까지 송출
       -------------------------------------------------------- */}
-      <Sequence from={172} durationInFrames={190}>
+      <Sequence from={165} durationInFrames={206}>
         <DialogueAudio
           src={staticFile("wb_line2.mp3")}
-          durationInFrames={190}
-          fadeInFrames={6}
-          fadeOutFrames={10}
+          durationInFrames={206}
+          fadeInFrames={2}
+          fadeOutFrames={4}
         />
         <div
           style={{
@@ -243,16 +243,16 @@ export const RealReel: React.FC = () => {
       </Sequence>
 
       {/* --------------------------------------------------------
-          [3] 12.2초: "난 오늘만 산다" (366프레임 시작, 50프레임 지속 -> 416프레임(13.87초) 종료)
+          [3] 12.47초: "난 오늘만 산다" (374프레임 시작, 41프레임 지속 -> 415프레임(13.83초) 종료)
           - 사용자 요청: 14초 이전에 음성과 자막 모두 완벽히 종료
           - 노이즈 제거된 순수 원빈 육성 100% 매칭
       -------------------------------------------------------- */}
-      <Sequence from={366} durationInFrames={50}>
+      <Sequence from={374} durationInFrames={41}>
         <DialogueAudio
           src={staticFile("wb_line3.mp3")}
-          durationInFrames={50}
-          fadeInFrames={4}
-          fadeOutFrames={8}
+          durationInFrames={41}
+          fadeInFrames={2}
+          fadeOutFrames={3}
         />
         <div
           style={{
@@ -293,8 +293,8 @@ export const RealReel: React.FC = () => {
         <DialogueAudio
           src={staticFile("wb_line4.mp3")}
           durationInFrames={75}
-          fadeInFrames={5}
-          fadeOutFrames={12}
+          fadeInFrames={2}
+          fadeOutFrames={5}
         />
         <div
           style={{
