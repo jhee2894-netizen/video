@@ -12,8 +12,8 @@ import {
 export const RealReel: React.FC = () => {
   const frame = useCurrentFrame();
 
-  // 끝 1초(420~450프레임, 14~15초) 동안 볼륨 페이드아웃
-  const audioVolume = interpolate(frame, [420, 450], [1, 0], {
+  // 끝 1초(540~570프레임, 18~19초) 동안 볼륨 페이드아웃
+  const audioVolume = interpolate(frame, [540, 570], [1, 0], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
@@ -45,10 +45,10 @@ export const RealReel: React.FC = () => {
 
       {/* ========================================================
           1. 시네마틱 숏츠 영상 영역
-          - 사용자 요청 타임라인:
-            * Shot 1 (창가 착석): 0 ~ 180f (0.0s ~ 6.0s)
-            * Shot 2 (눈동자 줌인): 180 ~ 360f (6.0s ~ 12.0s)
-            * Shot 3 (걸어 나오는 씬): 360 ~ 450f (12.0s ~ 15.0s)
+          - 사용자 요청에 맞춘 타임라인:
+            * Shot 1 (창가 원경): 0 ~ 170f (0.0s ~ 5.67s)
+            * Shot 2 (눈빛 클로즈업 대폭 연장): 170 ~ 440f (5.67s ~ 14.67s, 9.0초간)
+            * Shot 3 (걸어 나오는 씬): 440 ~ 570f (14.67s ~ 19.0s, 4.33초간)
       ======================================================== */}
       <div
         style={{
@@ -64,12 +64,12 @@ export const RealReel: React.FC = () => {
           backgroundColor: "#000000",
         }}
       >
-        {/* Shot 1: 창가 착석 (0 ~ 180f, 6.0초간) - 1.20초까지만 재생하여 클로즈업 침범 원천 차단 */}
-        <Sequence from={0} durationInFrames={180}>
+        {/* Shot 1: 창가 착석 (0 ~ 170f, 5.67초간) - 1.19초까지만 재생하여 클로즈업 침범 원천 차단 */}
+        <Sequence from={0} durationInFrames={170}>
           <Video
             src={staticFile("cat_video.mp4")}
             startFrom={0}
-            playbackRate={0.20}
+            playbackRate={0.21}
             muted
             style={{
               width: 1530,
@@ -80,12 +80,12 @@ export const RealReel: React.FC = () => {
           />
         </Sequence>
 
-        {/* Shot 2: 번뜩이는 눈빛 줌인 (180 ~ 360f, 6.0초간) - 정확히 1.40초(42f) 클로즈업 시작점부터 진입 */}
-        <Sequence from={180} durationInFrames={180}>
+        {/* Shot 2: 번뜩이는 눈빛 줌인 클로즈업 연장 (170 ~ 440f, 9.0초간) - 정확히 1.40초(42f) 클로즈업 시작점부터 진입 */}
+        <Sequence from={170} durationInFrames={270}>
           <Video
             src={staticFile("cat_video.mp4")}
             startFrom={42}
-            playbackRate={0.30}
+            playbackRate={0.20}
             muted
             style={{
               width: 1530,
@@ -96,12 +96,12 @@ export const RealReel: React.FC = () => {
           />
         </Sequence>
 
-        {/* Shot 3: 걸어 나오는 씬 (360 ~ 450f, 3.0초간) - 정확히 3.27초(98f) 걷기 시작점부터 진입 */}
-        <Sequence from={360} durationInFrames={90}>
+        {/* Shot 3: 걸어 나오는 씬 (440 ~ 570f, 4.33초간) - 정확히 3.27초(98f) 걷기 시작점부터 진입 */}
+        <Sequence from={440} durationInFrames={130}>
           <Video
             src={staticFile("cat_video.mp4")}
             startFrom={98}
-            playbackRate={0.57}
+            playbackRate={0.40}
             muted
             style={{
               width: 1530,
@@ -118,9 +118,10 @@ export const RealReel: React.FC = () => {
       ======================================================== */}
 
       {/* --------------------------------------------------------
-          [1] 3초에: "니들은 내일만 보고 살지?" (3.0s = 90프레임 시작)
+          [1] 3.0초: "니들은 내일만 보고 살지?" (90프레임 시작, 2.35초 지속)
+          - 타인의 "뭐?" 음성 완벽 제거 완료
       -------------------------------------------------------- */}
-      <Sequence from={90} durationInFrames={85}>
+      <Sequence from={90} durationInFrames={75}>
         <Audio
           src={staticFile("wb_line1.mp3")}
           volume={audioVolume}
@@ -156,9 +157,10 @@ export const RealReel: React.FC = () => {
       </Sequence>
 
       {/* --------------------------------------------------------
-          [2] 6초부터: "내일만 사는 놈은 오늘만 사는 놈한테 죽는다" (6.0s = 180프레임 시작)
+          [2] 5.8초: "내일만 사는 놈은 오늘만 사는 놈한테 죽는다" (175프레임 시작, 7.0초 지속)
+          - '죽는다'까지 잘림 없이 100% 완벽 재생
       -------------------------------------------------------- */}
-      <Sequence from={180} durationInFrames={105}>
+      <Sequence from={175} durationInFrames={215}>
         <Audio
           src={staticFile("wb_line2.mp3")}
           volume={audioVolume}
@@ -210,9 +212,10 @@ export const RealReel: React.FC = () => {
       </Sequence>
 
       {/* --------------------------------------------------------
-          [3] 이어서 9.5초~12초: "난 오늘만 산다" (9.5s = 285프레임 시작)
+          [3] 13.17초: "난 오늘만 산다" (395프레임 시작, 2.6초 지속)
+          - 클로즈업의 가장 강렬한 하이라이트 순간
       -------------------------------------------------------- */}
-      <Sequence from={285} durationInFrames={75}>
+      <Sequence from={395} durationInFrames={78}>
         <Audio
           src={staticFile("wb_line3.mp3")}
           volume={audioVolume}
@@ -248,9 +251,10 @@ export const RealReel: React.FC = () => {
       </Sequence>
 
       {/* --------------------------------------------------------
-          [4] 12~13초 쯤: "내가 보여줄게" (12.2s = 366프레임 시작!)
+          [4] 15.83초: "내가 보여줄게" (475프레임 시작, 2.5초 지속)
+          - 고양이가 걸어 나오는 씬에서 진짜 원빈 육성 100% 매칭
       -------------------------------------------------------- */}
-      <Sequence from={366} durationInFrames={80}>
+      <Sequence from={475} durationInFrames={75}>
         <Audio
           src={staticFile("wb_line4.mp3")}
           volume={audioVolume}

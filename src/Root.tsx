@@ -9,7 +9,7 @@ export const Root: React.FC = () => {
       <Composition
         id="RealReel"
         component={RealReel}
-        durationInFrames={450} // 15초 * 30fps = 450 frames (12~13초 대사 완벽 소화)
+        durationInFrames={570} // 19초 * 30fps = 570 frames (원빈 대사 풀버전 및 클로즈업 확장)
         fps={30}
         width={1080}
         height={1920}
